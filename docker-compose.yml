@@ -1,0 +1,31 @@
+version: '3.8'  # Newer version for healthchecks
+
+services:
+  db:
+    image: mysql:latest
+    container_name: "leetdb"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    healthcheck:  # Ensure MySQL is ready
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: "leetpy"
+    depends_on:  # Start app after db is healthy
+      db:
+        condition: service_healthy
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "password"
+    ports:
+      - "8000:8000"
