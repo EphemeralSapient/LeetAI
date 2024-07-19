@@ -9,7 +9,7 @@ Front-end, I'm not sure when but then it's planned to be go with React and Ant d
 # Docker
 
   - `docker-compose up -d` will perform required process
-  - `docker exec -it leetdb -u root -p"password"` will open up mysql shell [use leet database]
+  - `docker exec -it leetdb mysql -u"root" -p"password"` will open up mysql shell [use leet database]
 
 # Without docker
 
